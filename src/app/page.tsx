@@ -42,6 +42,17 @@ export default function BirthdayCard() {
       icon: Coffee,
     },
     {
+      title: 'Your Music Taste? Immaculate!',
+      content:
+        '"Bad" by Wave to Earth\n\nThis song reminds me of you...\n\nPro tip: Get the full experience on Spotify! 🎵',
+      background: 'bg-gradient-to-br from-green-400 to-emerald-600',
+      icon: Music,
+      action: {
+        url: 'https://open.spotify.com/track/6H67gFuycHyTOROX2M4bbs?si=sQrDNijcQtWSz9idajC6rg',
+        label: 'Listen on Spotify',
+      },
+    },
+    {
       title: 'A Birthday Wish',
       content:
         'May your day be as beautiful as your heart,\nas bright as your smile,\nand as special as you are to me.\n\nHappy Birthday! 🎂',
@@ -79,6 +90,18 @@ export default function BirthdayCard() {
           <div className="text-xl leading-relaxed whitespace-pre-line">
             {slides[currentSlide].subtitle || slides[currentSlide].content}
           </div>
+
+          {slides[currentSlide].action && (
+            <a
+              href={slides[currentSlide].action.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center px-6 py-3 rounded-full bg-[#1DB954] hover:bg-[#1ed760] transition-colors duration-300 font-semibold text-black"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {slides[currentSlide].action.label}
+            </a>
+          )}
 
           <div className="flex space-x-2 mt-auto">
             {slides.map((_, index) => (
