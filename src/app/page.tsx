@@ -1,101 +1,108 @@
-import Image from "next/image";
+'use client';
 
-export default function Home() {
+import React, { useState } from 'react';
+import {
+  Heart,
+  Sparkles,
+  Star,
+  PartyPopper,
+  Music,
+  Coffee,
+} from 'lucide-react';
+
+export default function BirthdayCard() {
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const slides = [
+    {
+      title: 'Your Birthday Wrapped',
+      subtitle: 'A special celebration just for you ✨',
+      background: 'bg-gradient-to-br from-violet-600 to-pink-500',
+      icon: PartyPopper,
+    },
+    {
+      title: 'You Light Up Every Room',
+      content:
+        'Your smile has brightened:\n- Countless mornings\n- Every coffee chat\n- All our shared moments\n- So many lives around you',
+      background: 'bg-gradient-to-br from-pink-500 to-rose-400',
+      icon: Sparkles,
+    },
+    {
+      title: 'What Makes You Special',
+      content:
+        'Things I admire about you:\n• Your infectious laughter\n• The way you care for others\n• Your passionate spirit\n• How you make everything better',
+      background: 'bg-gradient-to-br from-rose-400 to-orange-400',
+      icon: Star,
+    },
+    {
+      title: 'Our Favorite Moments',
+      content:
+        "Remember when:\n1. We had that amazing conversation about life\n2. You shared your dreams with me\n3. Your enthusiasm for the little things\n4. How time flies when we're together",
+      background: 'bg-gradient-to-br from-orange-400 to-amber-500',
+      icon: Coffee,
+    },
+    {
+      title: 'A Birthday Wish',
+      content:
+        'May your day be as beautiful as your heart,\nas bright as your smile,\nand as special as you are to me.\n\nHappy Birthday! 🎂',
+      background: 'bg-gradient-to-br from-amber-500 to-violet-600',
+      icon: Heart,
+    },
+  ];
+
+  const nextSlide = () => {
+    if (currentSlide < slides.length - 1) {
+      setCurrentSlide((curr) => curr + 1);
+    }
+  };
+
+  const restartShow = () => {
+    setCurrentSlide(0);
+  };
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <div className="min-h-screen w-full flex items-center justify-center bg-black p-4">
+      <div
+        className={`w-full max-w-md h-[600px] rounded-lg p-8 transition-all duration-700 transform cursor-pointer
+          ${slides[currentSlide].background} hover:scale-[1.02]`}
+        onClick={currentSlide < slides.length - 1 ? nextSlide : undefined}
+      >
+        <div className="h-full flex flex-col items-center justify-center text-white text-center space-y-8">
+          {React.createElement(slides[currentSlide].icon, {
+            className: 'w-16 h-16 animate-bounce',
+          })}
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+          <h1 className="text-4xl font-bold tracking-tight">
+            {slides[currentSlide].title}
+          </h1>
+
+          <div className="text-xl leading-relaxed whitespace-pre-line">
+            {slides[currentSlide].subtitle || slides[currentSlide].content}
+          </div>
+
+          <div className="flex space-x-2 mt-auto">
+            {slides.map((_, index) => (
+              <div
+                key={index}
+                className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                  index === currentSlide ? 'bg-white w-4' : 'bg-white/50'
+                }`}
+              />
+            ))}
+          </div>
+
+          {currentSlide < slides.length - 1 ? (
+            <p className="text-sm mt-4 animate-pulse">Tap to continue</p>
+          ) : (
+            <button
+              onClick={restartShow}
+              className="mt-4 px-6 py-2 rounded-full border-2 border-white hover:bg-white/20 transition-colors duration-300"
+            >
+              Start Over ✨
+            </button>
+          )}
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </div>
     </div>
   );
 }
